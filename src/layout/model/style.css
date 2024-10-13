@@ -1,0 +1,13 @@
+.scrollable-div::-webkit-scrollbar {
+  width: 4px; /* Độ rộng của thanh cuộn */
+  scroll-behavior: smooth;
+}
+
+.scrollable-div::-webkit-scrollbar-thumb {
+  background-color: #888; /* Màu nền của nút cuộn */
+  border-radius: 4px; /* Bo góc của nút cuộn */
+}
+
+.scrollable-div::-webkit-scrollbar-track {
+  background-color: transparent;
+}
