@@ -39,6 +39,10 @@ import TransacDetail from "./transaction/TransacDetail";
 // chat
 import Chat from "./chat/Chat";
 import ThongTin from "./thong-tin/ThongTin";
+import BannerPage from "./banner";
+import Questions from "./cauhoithuonggap";
+import Project from "./project/Project";
+import FinishProject from "./project/ProjectDetails";
 
 export default {
   MapPage,
@@ -82,4 +86,8 @@ export default {
   // Chat
   Chat,
   ThongTin,
+  BannerPage,
+  Questions,
+  Project,
+  FinishProject,
 };

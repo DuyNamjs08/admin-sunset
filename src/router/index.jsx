@@ -1,3 +1,4 @@
+import { Outlet } from "react-router-dom";
 import Pages from "../page/index";
 const TRANG_CHU = "/";
 const GIOI_THIEU = "/gioi-thieu";
@@ -11,6 +12,9 @@ const TAI_KHOAN = "/tai-khoan";
 const GIAO_DICH = "/giao-dich";
 const CHAT = "/chat";
 const THONG_TIN = "/thong-tin";
+const BANNER = "/banner";
+const QUESTIONS = "/cau-hoi-thuong-gap";
+const DU_AN = "/du-an-da-lam";
 
 const RouterWeb = [
   {
@@ -18,6 +22,18 @@ const RouterWeb = [
     path: TRANG_CHU,
     role: ["1", "2", "3"],
     component: <Pages.MapPage />,
+  },
+  {
+    id: 214141,
+    path: QUESTIONS,
+    role: ["1", "2", "3"],
+    component: <Pages.Questions />,
+  },
+  {
+    id: 2141453,
+    path: BANNER,
+    role: ["1", "2", "3"],
+    component: <Pages.BannerPage />,
   },
   {
     id: 1999,
@@ -80,6 +96,12 @@ const RouterWeb = [
     role: ["1", "2", "3"],
   },
   {
+    id: 2999,
+    path: LIEN_HE,
+    component: <Pages.ContactPage />,
+    role: ["1", "2", "3"],
+  },
+  {
     id: 298,
     path: TIN_TUC,
     component: <Pages.PostOulet />,
@@ -92,6 +114,26 @@ const RouterWeb = [
       {
         path: ":id",
         component: <Pages.PostDetails />,
+      },
+    ],
+  },
+  {
+    id: 296,
+    path: DU_AN,
+    component: (
+      <div>
+        <Outlet />
+      </div>
+    ),
+    role: ["1", "2", "3"],
+    child: [
+      {
+        path: "",
+        component: <Pages.Project />,
+      },
+      {
+        path: ":id",
+        component: <Pages.FinishProject />,
       },
     ],
   },

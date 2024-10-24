@@ -6,6 +6,7 @@ import { useOnOutsideClick } from "../hook/use-outside";
 import AlertCmp from "../components/alert/Alert";
 import { useSelector, useDispatch } from "react-redux";
 import { resetMessage } from "../feature/homeSlice";
+import styled from "styled-components";
 
 // eslint-disable-next-line react/prop-types
 function Layout({ children }) {
@@ -29,19 +30,31 @@ function Layout({ children }) {
 
   return (
     <div>
-      <Sidebar />
-      <Header setShowNoti={setShowNoti} />
-      <div ref={innerBorderRef}>{showNoti && <NotiSibar />}</div>
-      <div className="mt-[80px] ml-[200px] p-4">{children}</div>
-      {showMess && (
-        <div className="z-[1000000]  fixed right-4 bottom-10">
-          <div className="w-[400px]">
-            <AlertCmp type={type} message={message} />
+      <StyleContainer>
+        <Sidebar />
+        <Header setShowNoti={setShowNoti} />
+        <div ref={innerBorderRef}>{showNoti && <NotiSibar />}</div>
+        <div className="mt-[80px] ml-[200px] p-4">{children}</div>
+        {showMess && (
+          <div className="z-[1000000]  fixed right-4 bottom-10">
+            <div className="w-[400px]">
+              <AlertCmp type={type} message={message} />
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </StyleContainer>
     </div>
   );
 }
-
+const StyleContainer = styled.div`
+  .table {
+    width: 100%;
+  }
+  .table tbody > tr > td {
+    border: 1px solid #ddd;
+    padding: 7px 10px;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+`;
 export default Layout;

@@ -24,7 +24,8 @@ const ProductTable = ({ data, mutate, refetch, dataCategory }) => {
                   {item.productName}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-red-800 font-semibold">
-                  {addDot(item.price)} vnđ
+                  {Number(item.price) ? addDot(item.price) : item.price}{" "}
+                  {Number(item.price) ? "vnđ" : ""}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm  font-semibold text-blue-800 cursor-pointer">
                   {dataCategory

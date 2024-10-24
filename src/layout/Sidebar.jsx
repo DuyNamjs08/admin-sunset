@@ -2,6 +2,7 @@ import { sideBarData } from "../constant";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import logoMain from "../assets/hd.png";
+import { Tooltip } from "@mui/material";
 
 const Sidebar = () => {
   const location = useLocation();
@@ -33,7 +34,9 @@ const Sidebar = () => {
                   to={item.path}
                 >
                   {<item.icon />}
-                  <span>{item.title}</span>
+                  <span className="text-nowrap text-ellipsis overflow-hidden">
+                    <Tooltip title={item.title}>{item.title}</Tooltip>
+                  </span>
                 </Link>
               </div>
             </li>

@@ -3,22 +3,23 @@ import JoditEditor from "jodit-react";
 // import HTMLReactParser from "html-react-parser";
 import { Table } from "../../components/table/Table";
 import { TableHeader } from "../../components/table/TableHeader";
-import PostTable from "./PostTable";
-import {
-  usePosts,
-  usePostsDelete,
-  usePostsPost,
-} from "../../useQuery/usePosts";
 import { CommonLoadingModal } from "../../components/model/LoadingModel";
 import FormInput from "../../components/form/FormInput";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { postSchema } from "./postSchema";
 import { useDispatch } from "react-redux";
 import { showMessageError, showMessageSuccesss } from "../../feature/homeSlice";
 import CKeditor from "../../components/CKeditor";
+import PostTable from "../infoPage/PostTable";
+import { postSchema } from "../infoPage/postSchema";
+import {
+  useFinish,
+  useFinishDelete,
+  useFinishPost,
+} from "../../useQuery/useProject";
+import { v4 as uuidv4 } from "uuid";
 
-const InforPage = () => {
+const Project = () => {
   const dispatch = useDispatch();
   const editor = useRef(null);
   const [content, setContent] = useState("");
@@ -35,9 +36,9 @@ const InforPage = () => {
   });
 
   const [isLoadingMethod, setIsLoadingMethod] = useState(false);
-  const { data, isLoading, refetch } = usePosts();
-  const { mutate, status } = usePostsDelete();
-  const { mutate: mutatePost, status: statusPost } = usePostsPost();
+  const { data, isLoading, refetch } = useFinish();
+  const { mutate, status } = useFinishDelete();
+  const { mutate: mutatePost, status: statusPost } = useFinishPost();
   useEffect(() => {
     if (status === "pending" || statusPost === "pending") {
       setIsLoadingMethod(true);
@@ -64,15 +65,17 @@ const InforPage = () => {
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlContent, "text/html");
     const images = doc.querySelectorAll("img");
-    const files = Array.from(images).map((img, index) => {
-      const fileName = `image${index}.png`;
+    const files = Array.from(images).map((img) => {
+      const fileName = `image${uuidv4()}.png`;
       return base64ToFile(img.src, fileName);
     });
     return files;
   };
   return (
     <>
-      <div className="text-[28px] font-bold my-5">Màn hình tạo tin tức </div>
+      <div className="text-[28px] font-bold my-5">
+        Màn hình tạo dự án đã làm{" "}
+      </div>
       <FormInput
         id={"name"}
         label={"Tên tiêu đề"}
@@ -147,4 +150,4 @@ const InforPage = () => {
   );
 };
 
-export default InforPage;
+export default Project;

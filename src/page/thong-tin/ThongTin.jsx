@@ -70,7 +70,7 @@ const ThongTin = () => {
             if (file.length > 0) {
               const result = createFormData({
                 ...dataForm,
-                image: file[0],
+                image: file[0] || "",
                 imageName: data[0]?.imageName,
               });
               mutate(result, {
@@ -82,6 +82,8 @@ const ThongTin = () => {
                 },
               });
               reset();
+            } else {
+              dispatch(showMessageError("Bạn cần đổi ảnh!"));
             }
           },
           (err) => {
