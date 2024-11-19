@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import img from "../../assets/Image.svg";
+import img from "../../assets/Group 118.svg";
 import Accordion from "../../components/dropdown";
 import { showMessageError, showMessageSuccesss } from "../../feature/homeSlice";
 import { useDispatch } from "react-redux";
