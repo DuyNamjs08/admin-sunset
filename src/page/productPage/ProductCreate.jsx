@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { productSchema } from "./schema";
 import FormInput from "../../components/form/FormInput";
-import FormTextarea from "../../components/form/FormTextarea";
+// import FormTextarea from "../../components/form/FormTextarea";
 import FormCheckbox from "../../components/form/FormCheckbox";
 import FormSelectBox from "../../components/form/FormSelectBox";
 import { useCategory } from "../../useQuery/useCategory";
@@ -15,6 +15,7 @@ import { createFormData } from "../../helpers/creatFormData";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { showMessageError, showMessageSuccesss } from "../../feature/homeSlice";
+import CKeditor from "../../components/CKeditor";
 
 const PromoteData = [
   { label: "Theo giá tiền", value: "fixed" },
@@ -27,6 +28,7 @@ const colorData = [
 const ProductCreate = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [editorData, setEditorData] = useState("");
   const {
     register,
     handleSubmit,
@@ -63,6 +65,7 @@ const ProductCreate = () => {
               const result = createFormData({
                 ...dataForm,
                 "image[]": file,
+                description: editorData,
               });
               mutate(result, {
                 onSuccess: () => {
@@ -123,14 +126,14 @@ const ProductCreate = () => {
             id={"promotePrice"}
             register={register("promotePrice")}
           />
-          <FormTextarea
+          {/* <FormTextarea
             id={"description"}
             label={"Mô tả"}
             rows={12}
             placeholder={"Nhập mô tả"}
             register={register("description")}
             error={errors?.description}
-          />
+          /> */}
         </div>
         {/* =========== */}
         <div className="w-1/3 ">
@@ -213,6 +216,15 @@ const ProductCreate = () => {
               </div>
             ))}
           </div>
+        </div>
+      </div>
+      {/* mô tả */}
+      <div>
+        <div className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+          Mô tả sản phẩm
+        </div>
+        <div className="pr-8 py-4">
+          <CKeditor editorData={editorData} setEditorData={setEditorData} />
         </div>
       </div>
       <CommonLoadingModal

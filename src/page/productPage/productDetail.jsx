@@ -14,7 +14,7 @@ import { productSchema } from "./schema";
 import FormInput from "../../components/form/FormInput";
 import FormSelectBox from "../../components/form/FormSelectBox";
 import FormCheckbox from "../../components/form/FormCheckbox";
-import FormTextarea from "../../components/form/FormTextarea";
+// import FormTextarea from "../../components/form/FormTextarea";
 import FormRadio from "../../components/form/FormRadio";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import { useCategory } from "../../useQuery/useCategory";
@@ -24,6 +24,7 @@ import { addDot } from "../../helpers/changeNumber";
 import { defaultLimit } from "../../configUrl /configPagnigate";
 import { showMessageError, showMessageSuccesss } from "../../feature/homeSlice";
 import { useDispatch } from "react-redux";
+import CKeditor from "../../components/CKeditor";
 const PromoteData = [
   { label: "Theo giá tiền", value: "fixed" },
   { label: "Theo phần trăm", value: "percentage" },
@@ -45,6 +46,7 @@ const ProductDetail = () => {
     resolver: zodResolver(productSchema),
     mode: "onSubmit",
   });
+  const [editorData, setEditorData] = useState("");
   const location = useLocation();
   const [isEdit, setIsEdit] = useState(false);
   const [file, setFile] = useState([]);
@@ -84,6 +86,7 @@ const ProductDetail = () => {
       setValue("size", dataProductId?.size || "");
       setValue("color", dataProductId?.color || "");
       setValue("description", dataProductId?.description || "");
+      setEditorData(dataProductId?.description);
       setFileOld(dataProductId.image.split(","));
     }
   }, [dataProductId]);
@@ -144,145 +147,155 @@ const ProductDetail = () => {
         Quay lại
       </button>
       {isEdit ? (
-        <div className="flex gap-4 mt-6">
-          <div className="w-1/3">
-            <FormInput
-              id={"productName"}
-              label={"Tên sản phẩm"}
-              placeholder={"Nhập tên sản phẩm"}
-              register={register("productName")}
-              error={errors?.productName}
-            />
-            <FormInput
-              id={"price"}
-              label={"Giá sản phẩm"}
-              placeholder={"Nhập giá sản phẩm"}
-              register={register("price")}
-              error={errors?.price}
-            />
-            <FormSelectBox
-              data={
-                data?.data
-                  ? data?.data?.map((item) => {
-                      return { value: item._id, label: item.name };
-                    })
-                  : []
-              }
-              label={"Tên thư mục"}
-              id={"category_id"}
-              register={register("category_id")}
-            />
-            <FormCheckbox
-              label={"Khuyến mãi"}
-              register={register("promoteType")}
-              id={"promoteType"}
-            />
-            <FormSelectBox
-              data={PromoteData}
-              label={"Hình thức khuyến mãi"}
-              id={"promotePrice"}
-              register={register("promotePrice")}
-            />
-            <FormTextarea
-              id={"description"}
-              label={"Mô tả"}
-              rows={12}
-              placeholder={"Nhập mô tả"}
-              register={register("description")}
-              error={errors?.description}
-            />
-          </div>
-          {/* =========== */}
-          <div className="w-1/3 ">
-            <FormInput
-              id={"type"}
-              label={"Kiểu sản phẩm"}
-              placeholder={"Kiểu sản phẩm"}
-              register={register("type")}
-              error={errors?.type}
-            />
-            <FormCheckbox
-              label={"Trạng thái sản phẩm"}
-              register={register("status")}
-              id={"status"}
-            />
-            <FormInput
-              id={"inStore"}
-              label={"Số sản phẩm trong kho"}
-              placeholder={"Số sản phẩm trong kho"}
-              register={register("inStore")}
-              error={errors?.inStore}
-            />
-            <FormInput
-              id={"weight"}
-              label={"Trọng lượng"}
-              placeholder={"Nhập trọng lượng"}
-              register={register("weight")}
-              error={errors?.weight}
-            />
-            <FormInput
-              id={"size"}
-              label={"Kích thước"}
-              placeholder={"Nhập kích thước"}
-              register={register("size")}
-              error={errors?.size}
-            />
-            <FormRadio
-              label={"Màu sắc"}
-              data={colorData}
-              register={register("color")}
-            />
-          </div>
-          <div className="w-1/3 ">
-            <div className="h-[120px]  border-[2px]  flex justify-center items-center border-dashed">
-              <label htmlFor="file-upload" className="flex items-center">
-                {" "}
-                <UploadFileIcon />
-                Thêm ảnh
-              </label>
+        <div>
+          <div className="flex gap-4 mt-6">
+            <div className="w-1/3">
+              <FormInput
+                id={"productName"}
+                label={"Tên sản phẩm"}
+                placeholder={"Nhập tên sản phẩm"}
+                register={register("productName")}
+                error={errors?.productName}
+              />
+              <FormInput
+                id={"price"}
+                label={"Giá sản phẩm"}
+                placeholder={"Nhập giá sản phẩm"}
+                register={register("price")}
+                error={errors?.price}
+              />
+              <FormSelectBox
+                data={
+                  data?.data
+                    ? data?.data?.map((item) => {
+                        return { value: item._id, label: item.name };
+                      })
+                    : []
+                }
+                label={"Tên thư mục"}
+                id={"category_id"}
+                register={register("category_id")}
+              />
+              <FormCheckbox
+                label={"Khuyến mãi"}
+                register={register("promoteType")}
+                id={"promoteType"}
+              />
+              <FormSelectBox
+                data={PromoteData}
+                label={"Hình thức khuyến mãi"}
+                id={"promotePrice"}
+                register={register("promotePrice")}
+              />
+              {/* <FormTextarea
+                id={"description"}
+                label={"Mô tả"}
+                rows={12}
+                placeholder={"Nhập mô tả"}
+                register={register("description")}
+                error={errors?.description}
+              /> */}
             </div>
-            {!file.length > 0 && (
-              <p className={`text-red-300 mt-3`}>{"Vui lòng chọn ảnh"}</p>
-            )}
-            <input
-              onChange={(e) => {
-                setFile(Array.from(e.target.files));
-              }}
-              id="file-upload"
-              type="file"
-              name="file-upload"
-              multiple
-              accept="image/*"
-              className="hidden"
-            />
-            <div className="mt-4">
-              {file.map((image, index) => (
-                <div key={index}>
-                  <img
-                    src={URL.createObjectURL(image)}
-                    alt={`Image ${index}`}
-                    className="max-w-[200px] mb-2"
-                  />
-                  <button
-                    onClick={() => handleDelete(index)}
-                    type="submit"
-                    className=" p-2 mb-4 text-white bg-red-700 hover:bg-red-800 focus:ring-4 font-medium rounded-lg text-sm text-center "
-                  >
-                    Xóa
-                  </button>
-                </div>
-              ))}
-              {fileOld.length > 0 &&
-                file.length === 0 &&
-                fileOld.map((image, index) => (
+            {/* =========== */}
+            <div className="w-1/3 ">
+              <FormInput
+                id={"type"}
+                label={"Kiểu sản phẩm"}
+                placeholder={"Kiểu sản phẩm"}
+                register={register("type")}
+                error={errors?.type}
+              />
+              <FormCheckbox
+                label={"Trạng thái sản phẩm"}
+                register={register("status")}
+                id={"status"}
+              />
+              <FormInput
+                id={"inStore"}
+                label={"Số sản phẩm trong kho"}
+                placeholder={"Số sản phẩm trong kho"}
+                register={register("inStore")}
+                error={errors?.inStore}
+              />
+              <FormInput
+                id={"weight"}
+                label={"Trọng lượng"}
+                placeholder={"Nhập trọng lượng"}
+                register={register("weight")}
+                error={errors?.weight}
+              />
+              <FormInput
+                id={"size"}
+                label={"Kích thước"}
+                placeholder={"Nhập kích thước"}
+                register={register("size")}
+                error={errors?.size}
+              />
+              <FormRadio
+                label={"Màu sắc"}
+                data={colorData}
+                register={register("color")}
+              />
+            </div>
+            <div className="w-1/3 ">
+              <div className="h-[120px]  border-[2px]  flex justify-center items-center border-dashed">
+                <label htmlFor="file-upload" className="flex items-center">
+                  {" "}
+                  <UploadFileIcon />
+                  Thêm ảnh
+                </label>
+              </div>
+              {!file.length > 0 && (
+                <p className={`text-red-300 mt-3`}>{"Vui lòng chọn ảnh"}</p>
+              )}
+              <input
+                onChange={(e) => {
+                  setFile(Array.from(e.target.files));
+                }}
+                id="file-upload"
+                type="file"
+                name="file-upload"
+                multiple
+                accept="image/*"
+                className="hidden"
+              />
+              <div className="mt-4">
+                {file.map((image, index) => (
                   <div key={index}>
                     <img
-                      src={image}
+                      src={URL.createObjectURL(image)}
                       alt={`Image ${index}`}
                       className="max-w-[200px] mb-2"
                     />
+                    <button
+                      onClick={() => handleDelete(index)}
+                      type="submit"
+                      className=" p-2 mb-4 text-white bg-red-700 hover:bg-red-800 focus:ring-4 font-medium rounded-lg text-sm text-center "
+                    >
+                      Xóa
+                    </button>
                   </div>
                 ))}
+                {fileOld.length > 0 &&
+                  file.length === 0 &&
+                  fileOld.map((image, index) => (
+                    <div key={index}>
+                      <img
+                        src={image}
+                        alt={`Image ${index}`}
+                        className="max-w-[200px] mb-2"
+                      />
+                    </div>
+                  ))}
+              </div>
+            </div>
+          </div>
+          <div>
+            <div className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              Mô tả sản phẩm
+            </div>
+            <div className="pr-8 py-4">
+              <CKeditor editorData={editorData} setEditorData={setEditorData} />
             </div>
           </div>
         </div>
@@ -359,9 +372,12 @@ const ProductDetail = () => {
                 <p className="text-[14px] min-w-[200px] font-semibold">
                   Mô tả :
                 </p>
-                <div className="text-[14px]">
-                  {dataProductId ? dataProductId.description : ""}
-                </div>
+                <div
+                  className="text-[14px]"
+                  dangerouslySetInnerHTML={{
+                    __html: dataProductId ? dataProductId.description : "",
+                  }}
+                ></div>
               </div>
             </div>
           </div>

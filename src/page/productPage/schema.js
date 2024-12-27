@@ -7,7 +7,7 @@ export const productSchema = z.object({
       invalid_type_error: "Trường này là bắt buộc",
     })
     .trim(),
-  description: z.string().trim(),
+  description: z.string().trim().optional(),
   price: z.string().trim(),
   category_id: z.string().trim(),
   promoteType: z.boolean(),
