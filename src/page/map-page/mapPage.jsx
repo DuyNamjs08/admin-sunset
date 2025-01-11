@@ -14,7 +14,8 @@ const MapPage = () => {
   const { data: dataOrder, isLoading: isLoadingOrder } = useOrderMonth();
   const { data: dataTransaction, isLoading: isLoadingTransaction } =
     useTransactionMonth();
-  console.log(dataOrder, dataTransaction);
+  // console.log(dataOrder, dataTransaction);
+  console.log(data);
   return (
     <>
       <div className="text-[28px] font-bold my-5">Trang chủ </div>

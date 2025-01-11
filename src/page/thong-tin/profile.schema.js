@@ -13,4 +13,5 @@ export const profileSchema = z.object({
   tax_code: z.string().trim(),
   facebook: z.string().trim(),
   message: z.string().trim(),
+  youtube: z.string().trim(),
 });

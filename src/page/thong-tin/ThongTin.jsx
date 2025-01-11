@@ -57,6 +57,7 @@ const ThongTin = () => {
       setValue("tax_code", data?.[0]?.tax_code || "");
       setValue("facebook", data?.[0]?.facebook || "");
       setValue("message", data?.[0]?.message || "");
+      setValue("youtube", data?.[0]?.youtube || "");
       setFileOld(data?.[0]?.image || "");
     }
   }, [data]);
@@ -183,6 +184,13 @@ const ThongTin = () => {
             placeholder={"Nhập link Message"}
             register={register("message")}
             error={errors?.message}
+          />
+          <FormInput
+            id={"youtube"}
+            label={"Link Youtube"}
+            placeholder={"Nhập link Youtube"}
+            register={register("youtube")}
+            error={errors?.youtube}
           />
         </div>
         <div className="w-1/3 ">
